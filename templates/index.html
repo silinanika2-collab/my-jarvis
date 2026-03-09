@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor: твой помощник с домашкой</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    
+<header>
+    <div class="logo-container">
+        <img src="/static/my-logo.png" alt="Logo" class="main-logo">
+        <span class="logo-text">Jarvis AI</span>
+    </div>
+    
+</header>
+
+    <section class="intro-section">
+        <h1>Умный помощник в учебе Jarvis</h1>
+
+        <div class="cards-container">
+            <div class="card-item">
+                <div class="glow-wrapper">
+                    <div class="card-image-box">
+                        <img src="static\Comp 10.png" alt="Шаг 1">
+                    </div>
+                </div>
+                <div class="card-info">
+                    <h3>ЛЮБОЙ ВОПРОС</h3>
+                    <p>Задай любой вопрос по любому предмету.</p>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <div class="glow-wrapper">
+                    <div class="card-image-box">
+                        <img src="static\Comp 11.png" alt="Шаг 2">
+                    </div>
+                </div>
+                <div class="card-info">
+                    <h3>ПЕРЕДОВАЯ ИИ-МОДЕЛЬ</h3>
+                    <p>Умная нейросеть, распознавающая текст на фото.</p>
+                </div>
+            </div>
+
+            <div class="card-item">
+                <div class="glow-wrapper">
+                    <div class="card-image-box">
+                        <img src="static\Comp 12.png" alt="Шаг 3">
+                    </div>
+                </div>
+                <div class="card-info">
+                    <h3>РАЗВЕРНУТЫЙ ОТВЕТ</h3>
+                    <p>Ответ не "просто число", а полное объяснение.</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="#solver-section" class="scroll-down">Попробовать сейчас ↓</a>
+    </section>
+
+    <section id="solver-section" class="gradient-bg">
+        <div class="content">
+            <h2>Джарвис AI</h2>
+            <p>Загрузи файл или введи свой вопрос.</p>
+            
+            <div class="input-block">
+                <textarea id="taskText" placeholder="Введи условие задачи здесь..."></textarea>
+                
+                <div class="file-upload">
+                    <input type="file" id="taskImage" accept="image/*">
+                    <div id="imagePreviewContainer" class="hidden">
+                        <img id="imagePreview" src="" alt="Превью">
+                        <button type="button" id="removeImageBtn">&times;</button>
+                    </div>
+                    <label for="taskImage">Прикрепить фото (необязательно)</label>
+                </div>
+                
+                <button onclick="solveTask()" id="solveBtn" class="original-btn">Найти решение</button>
+                
+                <div id="loader" class="hidden">Джарвис в поиске ответа...</div>
+                <div id="result" class="result-box hidden"></div>
+            </div>
+        </div>
+        
+    </section>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

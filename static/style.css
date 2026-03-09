@@ -1,0 +1,358 @@
+/* ОБЩИЕ СТИЛИ И ПЛАВНАЯ ПРОКРУТКА */
+html {
+    scroll-behavior: smooth; /* Это делает прокрутку плавной! */
+}
+/* Применяем Comfortaa ко всему сайту */
+* {
+    font-family: 'Comfortaa', sans-serif !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comfortaa', sans-serif;
+    color: white;
+    
+    /* --- НАСТРОЙКА ЕДИНЫХ ОБОЕВ --- */
+    background-image: url('/static/bg.jpg'); /* Укажи точное имя своего файла */
+    background-position: top center; /* Картинка прикрепляется к самому верху сайта */
+    background-repeat: no-repeat; /* Запрещаем картинке размножаться плиткой */
+    
+    /* Ширина 100% экрана, высота подстраивается пропорционально */
+    background-size: 100% auto; 
+    
+    /* ИМЕННО ЭТО СВОЙСТВО ЗАСТАВЛЯЕТ ФОН ПРОКРУЧИВАТЬСЯ ВМЕСТЕ С ТЕКСТОМ */
+    background-attachment: scroll; 
+    
+    /* Темный цвет на случай, если контент сайта окажется длиннее твоей картинки */
+    background-color: #ffffff; 
+}
+
+h1, h2, h3 { margin: 0; font-weight: 800; }
+p { margin: 10px 0; font-weight: 300; }
+
+/* --------------------------------- */
+/* ОБНОВЛЕННАЯ БЕЛАЯ ШАПКА           */
+/* --------------------------------- */
+header {
+    background-color: white; /* Белый фон */
+    padding: 1px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    
+    /* Тонкие черные поля (обводка сверху и снизу) */
+    border-bottom: 1px solid black; 
+    /* Если хочешь обводку со всех сторон, используй просто border: 1px solid black; */
+}
+
+/* Логотип и текст рядом */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.main-logo {
+    height: 70px; /* Настрой размер логотипа под себя */
+    width: auto;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 1.9rem;
+    font-weight: 650; /* Самый жирный вариант для лого */
+    color: black;
+    letter-spacing: -1px; /* Сдвигаем буквы плотнее для стиля */
+}
+
+
+/* --------------------------------- */
+/* КОРРЕКЦИЯ ЦВЕТОВ КОНТЕНТА         */
+/* --------------------------------- */
+
+/* Чтобы текст первого экрана не сливался, если обои светлые */
+.intro-section h1 {
+    color: rgb(0, 0, 0); 
+}
+
+/* --------------------------------- */
+/* ПЕРВЫЙ ЭКРАН (ИНТРО И 3 БЛОКА)    */
+/* --------------------------------- */
+.intro-section {
+    min-height: 90vh; /* Занимает весь экран */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px 20px 20px;
+}
+
+.intro-section h1 { font-size: 2rem; margin-bottom: 10px; }
+.subtitle { color: #bbbbbb; font-size: 1rem; margin-bottom: 40px; }
+
+/* Контейнер для трех карточек */
+/* 1. Контейнер для карточек */
+.cards-container {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 80px;
+    padding-bottom: 50px;
+}
+
+/* 2. Общий блок (Картинка + Текст) */
+.card-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 450px; /* Ширина виджета */
+}
+
+/* 3. ОСНОВА ОБВОДКИ */
+.glow-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3; /* Пропорции твоих фото 1440/1080 */
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Скрывает углы вращающегося градиента */
+    background: transparent;
+}
+
+/* 4. ВРАЩАЮЩИЙСЯ ГРАДИЕНТ (Слой "под" картинкой) */
+.glow-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 180%; /* Больше контейнера, чтобы не было пустых углов при вращении */
+    height: 180%;
+    background: conic-gradient(
+        #000000, #ffffff, #694848, #3b5a43, #374152
+    );
+    animation: rotate-glow 4s linear infinite;
+    z-index: 1;
+    box-shadow: 0 0 15px 5px rgba(81, 203, 238, 0.7);
+}
+
+/* 5. МАСКА (Оставляет только тонкую рамку) */
+/* Если твой общий фон сайта темный, замени #111 на цвет твоего фона */
+.glow-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: 3px; /* ТОЛЩИНА ОБВОДКИ */
+    background: #111; 
+    border-radius: 18px;
+    z-index: 2;
+}
+
+/* 6. КОНТЕЙНЕР ДЛЯ КАРТИНКИ (Внутри рамки) */
+.card-image-box {
+    position: relative;
+    z-index: 3; /* Выше маски и градиента */
+    width: 100%;
+    height: 100%;
+    padding: 2px; /* Небольшой отступ, чтобы картинка не наезжала на рамку */
+    box-sizing: border-box;
+}
+
+.card-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Заполняет блок без искажений */
+    border-radius: 16px;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+/* Эффект наведения */
+.card-item:hover .card-image-box img {
+    transform: scale(1.05);
+}
+
+@keyframes rotate-glow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 7. ТЕКСТ ПОД КАРТИНКОЙ (Чистый, без обводки) */
+.card-info {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.card-info h3 {
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 800;
+    color: rgb(0, 0, 0);
+    margin: 0 0 8px 0;
+    font-size: 1.4rem;
+}
+
+.card-info p {
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.8);
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Стрелка-ссылка вниз */
+.scroll-down {
+    margin-top: 50px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px 20px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.scroll-down:hover { background: white; color: black; }
+
+
+/* ВТОРОЙ ЭКРАН (САМ РЕШЕБНИК) */
+.gradient-bg {
+    min-height: 100vh;
+    /* УДАЛИЛИ background-image С ГРАДИЕНТОМ */
+    background-color: transparent; /* Делаем блок полностью прозрачным */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+    color: rgb(0, 0, 0); /* Сделали текст белым, чтобы его было видно на обоях */
+}
+
+.content {
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+}
+
+/* Инпуты и кнопки (те же, что и были) */
+.input-block { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center;}
+textarea { width: 100%; height: 100px; background: rgba(255, 255, 255, 0.5); border: none; border-radius: 12px; padding: 15px; font-family: 'Comfortaa', sans-serif;}
+.file-upload input { display: none; }
+.file-upload label { font-size: 0.9rem; color: rgba(0,0,0,0.6); cursor: pointer; }
+.original-btn { background-color: black; color: white; border: 2px solid rgba(255,255,255,0.3); padding: 12px 30px; border-radius: 8px; font-weight: 500; cursor: pointer; transition: 0.3s;}
+.original-btn:hover { background-color: #222; transform: scale(1.05); }
+
+/* Результат */
+.hidden { display: none; }
+.result-box { background-color: rgba(255, 255, 255, 0.9); color: black; border-radius: 12px; padding: 20px; width: 100%; text-align: left; box-shadow: 0 4px 15px rgb(0, 0, 0, 1); margin-top: 20px; }
+
+#result {
+    width: 90%;
+    max-width: 1000px;
+    /* Устанавливаем максимальную высоту блока (например, 500px или 60% экрана) */
+    max-height: 550px; 
+    
+    margin: 30px auto;
+    padding: 25px;
+    background: white; /* Оставляем белый фон, как на твоем скрине */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    
+    /* ВКЛЮЧАЕМ ВНУТРЕННИЙ СКРОЛЛ */
+    overflow-y: auto; 
+    overflow-x: hidden; /* Запрещаем горизонтальный скролл */
+    
+    /* Делаем текст внутри красивым */
+    font-family: 'Kumbh Sans', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    text-align: left;
+}
+
+/* --- СТИЛИЗУЕМ СКРОЛЛБАР (чтобы не был уродливым) --- */
+#result::-webkit-scrollbar {
+    width: 8px;
+}
+
+#result::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#result::-webkit-scrollbar-thumb {
+    /* Сделаем его цветным под стиль Google */
+    background: linear-gradient(to bottom, #472828, #6b6b6b);
+    border-radius: 10px;
+}
+
+#result::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Правило для мобильных телефонов и планшетов */
+@media (max-width: 768px) {
+    body {
+        /* На телефонах фон будет растягиваться так, чтобы закрыть весь экран без пустот */
+        background-size: cover; 
+    }
+}
+/* Контейнер для истории (убедись, что в #result есть overflow-y: auto) */
+.qa-block {
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.user-message {
+    background: #f8f9fa;
+    padding: 12px 16px;
+    border-left: 4px solid #3d2e2e; /* Зеленая полоска для пользователя */
+    border-radius: 4px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.ai-message {
+    padding: 0 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+#imagePreviewContainer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    border: 2px solid #4285F4;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#imagePreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Фото заполнит квадратик без искажений */
+}
+
+#removeImageBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(234, 67, 53, 0.8); /* Красный цвет Google */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 5px;
+    border-bottom-left-radius: 5px;
+}
+
+/* Скрываем контейнер по умолчанию */
+.hidden {
+    display: none;
+}
