@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: my-jarvis
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.19
+      - key: GEMINI_API_KEY
+        sync: false
